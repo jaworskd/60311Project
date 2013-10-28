@@ -1,0 +1,96 @@
+//this was given to me from sameed again its many php files
+
+//do search.php
+
+<?php
+	$title = $_GET["title"];
+	$isbn  = $_GET["isbn"];
+	$author = $_GET["author"];
+
+	$mysqli = new mysqli("localhost", "root", "1234", "bookshop");
+	//for university server
+	//$mysqli = new mysqli("localhost", "momtaz_bookshop", "1234", "momtaz_bookshop");
+
+	/* check connection */
+	if (mysqli_connect_errno()) {
+		printf("Connect failed: %s\n", mysqli_connect_error());
+		exit();
+	}
+	
+	if($title =='' AND $isbn =='' AND $author == '' )
+	{	
+		echo "Nothing to search for.";
+		exit();
+	}
+	
+	$query = 'SELECT title, isbn, author, usecond, price, seller FROM books WHERE ';
+	if($title != '')
+		$query = $query . 'title LIKE "%'.$title.'%"'; 
+
+	else if($isbn != '')
+		$query = $query . ' isbn="'.$isbn.'"';
+	
+	else if($query != '')
+		$query = $query . ' author LIKE "%'.$author.'%"';
+		
+	//echo $query;
+	
+	if ($result = $mysqli->query($query)) {
+		if($result->num_rows > 0) {
+			echo "Found these <br />-------------------------------------<br/>";
+
+			/* fetch associative array */
+			while ($row = $result->fetch_assoc()) {
+				echo "Title : {$row['title']} <br />";
+				echo "Isbn : {$row['isbn']} <br />";
+				echo "Author : {$row['author']} <br />";
+				echo "Condition : {$row['usecond']} <br />";
+				echo "Price : {$row['price']} <br />";
+				echo "Seller : {$row['seller']} <br />";
+				echo "-------------------------------------<br />";
+			}
+		} else {
+			echo "<br/>Nothing found.<br />";
+		}
+		/* free result set */
+		$result->free();
+	} 
+
+	/* close connection */
+	$mysqli->close();
+	
+?>
+
+
+**********
+//searchbook.php
+
+<?php
+	echo "<h1>Search for book</h1>";
+	echo '<form id="searchform" action="dosearch.php" method="get">';
+	echo 'Search by title : <input type="textbox" id="title" name="title"/> or <br />';
+	echo 'Search by isbn : <input type="textbox" id="isbn" name="isbn"/> or <br />';
+	echo 'Search by author : <input type="textbox" id="author" name="author"/> <br />';
+	
+	echo '<input type="submit" value="Search" name="action"/>';
+	echo '</form>';
+	
+?>
+
+************
+//index.php
+
+<html>
+<head>
+<title> my test php </title>
+</head>
+
+<body>
+
+<?php
+include 'searchbook.php';
+?>
+
+</body>
+</html>
+
