@@ -1,0 +1,163 @@
+// this code does not have access to a database it just tests the purchase page and profile page
+
+//make purchase page.php
+<!DOC HTML>
+<html>
+<body>
+	<form method="post" action="purchase page.php">
+	   Book Name: <input type="text" name="bookname">
+	   <br>
+	   Author's Name: <input type="text" name="author">
+	   <br>
+	   Subject: <input type="text" name="subject">
+	   <br>
+	   Price: <input type="text" name="price">
+	   <br>
+	   Condition: <textarea name="comment" rows="2" cols="25"></textarea>
+	   <br>
+	   Seller: <input type="text" name="seller">
+	   <br>
+	   Seller phone: <input type="text" name="sellerphone">
+	   <br>
+	   Seller email: <input type="text" name="selleremail">
+	   <br>
+	   
+	   <input type="submit" name="submit" value="Submit">
+	</form>
+</body>
+</html>
+
+***********
+
+//purchase page.php
+<?php
+// define variables and set to empty values
+$isbn = " ";
+$bookname = " ";
+$author = " ";
+$subject = " ";
+$price = " ";
+$condition = " " ;
+$seller = $sellerphone = $selleremail = " ";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+	if(!empty($_POST))
+	{
+	   $isbn = $_POST["isbn"];
+	   $bookname = $_POST["bookname"];
+	   $author = $_POST["author"];
+	   $subject = $_POST["subject"];
+	   $price = $_POST["price"];
+	   $condition = $_POST["condition"];
+	   $seller = $_POST["seller"];
+	   $sellerphone = $_POST["sellerphone"];
+	   $selleremail = $_POST["selleremail"];
+	}
+}
+
+?>
+
+<h2>Book purchase</h2>
+<?php
+echo $isbn;
+echo "<br>";?>
+<h2> Book: </h2>
+<?php echo $bookname;
+echo "<br>";?>
+<h3> In: </h3>
+<?php echo $subject;
+echo "<br>"?>
+<h3> By: </h3>
+<?php echo $author;
+echo "<br><br>";?>
+<h3>Price: $</h3>
+<?php echo $price;
+echo "<br>";?>
+<h3> Condition: </h3>
+<?php echo $condition;
+
+?>
+<form method="get" action="seller info.php">
+   <input type="submit" name="submit" value="Intend to Purchase">
+</form>
+
+
+
+*************
+find profile page.php
+
+<html>
+<head>
+</head>
+<body>
+
+<form method="post" action="profile page.php">
+   Seller: <input type="text" name="seller">
+   <br>
+   Seller phone: <input type="text" name="sellerphone">
+   <br>
+   Seller email: <input type="text" name="selleremail">
+   <br>
+   
+   <input type="submit" name="submit" value="Submit">
+</form>
+</body>
+</html>
+
+
+*************
+
+//profile page.php
+
+<!DOC HTML>
+<html>
+	<head>
+		<h1>"Profile"</h1>
+	</head>
+	
+<body>
+
+	<?php
+	$seller = $sellerphone = $selleremail = " ";
+
+		if ($_SERVER["REQUEST_METHOD"] == "POST"){
+			if(!empty($_POST))
+			{
+			   $seller = $_POST["seller"];
+			   $sellerphone = $_POST["sellerphone"];
+			   $selleremail = $_POST["selleremail"];
+			}
+		}
+	
+	?>
+	
+	<h2>Name :</h2><?php echo $seller;?><br>
+	<h2>Phone Number :</h2><?php echo $sellerphone;?><br>
+	<h2>Email :</h2><?php echo $selleremail;?><br>
+
+</body>
+</html>
+
+**************
+
+//book selling.php
+
+<html>
+<body>
+	<?php  
+	if ($_SERVER["REQUEST_METHOD"] == "POST"){
+		if(!empty($_POST))
+		{
+			$seller = $_POST["seller"];
+			$sellerphone = $_POST["sellerphone"];
+			$selleremail = $_POST["selleremail"];
+		}
+	}
+	
+	echo $seller;
+	echo $sellerphone;
+	echo $sellermail;
+	?>
+	
+</body>
+</html>
